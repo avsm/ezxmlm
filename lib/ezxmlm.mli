@@ -138,3 +138,19 @@ val filter_map : tag:string -> f:(Xmlm.attribute list -> nodes -> nodes) -> node
 (** Traverses XML nodes and applies [f] to any tags that match the [tag] parameter. *)
 val filter_iter : tag:string -> f:(Xmlm.attribute list -> nodes -> unit) -> nodes -> unit
 
+(** Operations on XML without exceptions *)
+module  Exceptionless : sig
+
+  val filter_attr : string -> string ->   (Xmlm.attribute list * nodes) list ->  (Xmlm.attribute list * nodes) option
+    
+  val get_attr : string -> Xmlm.attribute list ->  string option
+    
+  val pick_tag : string -> string -> string -> nodes -> node option
+    
+  val hd : nodes -> node option
+    
+  val member_with_attr : string -> nodes -> (Xmlm.attribute list * nodes) option
+    
+  val member : string -> nodes -> nodes option
+end
+  

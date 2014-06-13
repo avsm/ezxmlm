@@ -127,9 +127,9 @@ let member_with_attr tag nodes =
   | hd::_ -> hd
   
 let has_member tag nodes =
-    match members_with_attr tag nodes with
-  | [] -> false
-  | hd::_ -> true
+  match members_with_attr tag nodes with
+    | [] -> false
+    | hd::_ -> true
 
 let members tag nodes =
   List.map snd (members_with_attr tag nodes)
@@ -154,3 +154,32 @@ let data_to_string nodes =
     | _ -> ()
   ) nodes;
   Buffer.contents buf
+
+
+module Exceptionless =
+struct
+  let filter_attr attr value al  =
+    try Some (filter_attr attr value al)
+    with Not_found -> None
+
+  let get_attr k attrs = 
+    try Some(get_attr k attrs)
+    with Not_found -> None
+
+  let pick_tag tag cl v nodes = 
+    try Some(pick_tag tag cl v nodes)
+    with Not_found -> None
+
+  let hd nodes = 
+    try Some(hd nodes)
+    with Not_found -> None
+
+  let member_with_attr tag nodes =
+    try Some(member_with_attr tag nodes)
+    with Tag_not_found _ -> None
+
+  let member tag nodes =
+    try Some(member tag nodes)
+    with Tag_not_found _ -> None
+      
+end
