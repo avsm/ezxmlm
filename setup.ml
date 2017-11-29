@@ -242,7 +242,7 @@ module OASISString = struct
 
 
   let replace_chars f s =
-    let buf = String.make (String.length s) 'X' in
+    let buf = Bytes.make (String.length s) 'X' in
       for i = 0 to String.length s - 1 do
         buf.[i] <- f s.[i]
       done;
@@ -326,10 +326,10 @@ module OASISUtils = struct
          type t = string
 
          let equal s1 s2 =
-             (String.lowercase s1) = (String.lowercase s2)
+             (String.lowercase_ascii s1) = (String.lowercase_ascii s2)
 
          let hash s =
-           Hashtbl.hash (String.lowercase s)
+           Hashtbl.hash (String.lowercase_ascii s)
        end)
 
   module SetStringCsl =
@@ -363,11 +363,11 @@ module OASISUtils = struct
         let buf =
           (* Start with a _ if digit *)
           if '0' <= s.[0] && s.[0] <= '9' then
-            "_"^buf
+            "_"^(Bytes.to_string buf)
           else
-            buf
+            (Bytes.to_string buf)
         in
-          String.lowercase buf
+          String.lowercase_ascii buf
       end
 
 
